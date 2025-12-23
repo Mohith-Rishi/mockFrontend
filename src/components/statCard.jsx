@@ -22,7 +22,7 @@ export default function StatCard({ label, value, unit }) {
       <p className="text-sm opacity-80">{label}</p>
 
       <div className="flex items-end gap-2 mt-2">
-        <span className="text-4xl font-bold">{value}</span>
+        <span className="text-4xl font-bold">{value !== null && value !== undefined ? value : "--"}{" "}</span>
         <span className="text-sm opacity-80">{unit}</span>
       </div>
 

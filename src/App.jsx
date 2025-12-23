@@ -4,23 +4,31 @@ import StatCard from "./components/statCard";
 import PollutantGraph from "./components/pollutionGraphs";
 import Alerts from "./components/AlertsPanel";
 import Recommendations from "./components/RecommendationsTab";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+import React from 'react'
+
+const EMPTY_POLLUTION = {
+  PM2_5: null,
+  NO2: null,
+  };
 
 export default function App() {
+  
+  const [latest, setLatest] = useState(EMPTY_POLLUTION);
   const [data, setData] = useState([]);
   const [showGraphs, setShowGraphs] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setData((prev) => {
-        const updated = [...prev, generatePollutionData()];
-        return updated.slice(-150); // ~5 min (2s interval)
-      });
+      const newData = generatePollutionData();
+
+      setData((prev) => [...prev, newData].slice(-150));
+      setLatest(newData);
     }, 2000);
 
     return () => clearInterval(interval);
   }, []);
-
-  const latest = data[data.length - 1];
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
@@ -47,6 +55,7 @@ export default function App() {
 
       <Alerts value={latest?.PM2_5} />
       <Recommendations />
+      <ToastContainer />
     </div>
   );
 }

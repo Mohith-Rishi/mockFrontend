@@ -1,5 +1,20 @@
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+
 export default function Alerts({ value }) {
-  if (!value) return null;
+  useEffect(() => {
+    if (value > 150) {
+      toast.error("⚠️ Unhealthy air quality detected!");
+    }
+  }, [value]);
+
+  if (value == null) {
+    return (
+      <div className="bg-gray-700 p-4 rounded mb-4">
+        ⏳ Waiting for air quality data...
+      </div>
+    );
+  }
 
   if (value > 150) {
     return (
