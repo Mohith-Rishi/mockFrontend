@@ -85,6 +85,7 @@ function mockAIPredict({ sensorId, CO2, PM2_5 }) {
 export default function App() {
   const lastToastTimeCo2 = useRef(0);
   const lastToastTimePm25 = useRef(0);
+  const lastPred=useRef(0);
 
   const [latest, setLatest] = useState(EMPTY_POLLUTION);
   const [data, setData] = useState([]);
@@ -124,7 +125,11 @@ export default function App() {
 
       // ---- AI-aligned mock recommendation ----
       const aiResult = mockAIPredict(formatted);
-      setAiRecommendation(aiResult);
+      if(now-lastPred.current>1000){
+        setAiRecommendation(aiResult);
+        lastPred.current=now;
+      }
+      
 
     }, 100); // ⏱ 1 second frequency
 
