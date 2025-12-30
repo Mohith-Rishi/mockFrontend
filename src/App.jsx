@@ -126,7 +126,7 @@ export default function App() {
       const aiResult = mockAIPredict(formatted);
       setAiRecommendation(aiResult);
 
-    }, 1000); // ⏱ 1 second frequency
+    }, 100); // ⏱ 1 second frequency
 
     return () => clearInterval(interval);
   }, []);
